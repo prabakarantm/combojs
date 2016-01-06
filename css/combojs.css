@@ -2,7 +2,7 @@
   
 .combojs {
     position: relative;
-    width: 400px;
+    width: 100%;
 }
 
 .combojs .combojs-edit {
@@ -55,7 +55,7 @@
 }
 
 .combojs .combojs-list .combojs-row > div {
-    width: 90%;
+    width: 95%;
     margin: auto;
     padding: 5px;
 }
