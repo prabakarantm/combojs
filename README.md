@@ -1,6 +1,6 @@
 # combo.js
 
-The following JavaScript script will transform a ***select*** dropdown list into an editable combo box.
+The following script will transform a ***select*** dropdown list into an editable combo box.
 
 ###Usage:
 
