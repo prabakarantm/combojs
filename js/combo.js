@@ -23,44 +23,44 @@ SOFTWARE.
  */
 (function ($) {
 
-  var elem = function (attr) {
-        
-        if (attr.hasOwnProperty("tag")) { 
-            var d = document.createElement(attr.tag); 
+    var elem = function (attr) {
+
+        if (attr.hasOwnProperty("tag")) {
+            var d = document.createElement(attr.tag);
             if (attr.hasOwnProperty("className")) {
                 $(d).addClass(attr.className);
-            } 
+            }
             if (attr.hasOwnProperty("type")) {
                 $(d).attr("type", attr.type);
-            } 
+            }
             if (attr.hasOwnProperty("val")) {
                 $(d).val(attr.val);
-            } 
+            }
             if (attr.hasOwnProperty("text")) {
                 $(d).text(attr.text);
-            } 
+            }
             if (attr.hasOwnProperty("id")) {
                 $(d).attr("id", attr.id);
             }
             if (attr.hasOwnProperty("name")) {
                 $(d).attr("name", attr.name);
             }
-            return d; 
-        } 
-        return null; 
+            return d;
+        }
+        return null;
     };
 
-  var elemItem = function (data) {
-      var row = elem({ tag: "div", className: "combojs-row" });
-      var item = elem({ tag: "div", text: data.label });
-      $(row).attr("value", data.value);
-      $(row).append(item);
-      return row;
+    var elemItem = function (data) {
+        var row = elem({ tag: "div", className: "combojs-row" });
+        var item = elem({ tag: "div", text: data.label });
+        $(row).attr("value", data.value);
+        $(row).append(item);
+        return row;
     };
 
     var trackr = {};
-     
-    var o = function(id) {
+
+    var o = function (id) {
         this.items = (typeof trackr[id].data === "undefined")
                      ? [] : trackr[id].data;
         this.getSelected = trackr[id].selected;
@@ -68,7 +68,7 @@ SOFTWARE.
 
             trackr[id].selected = {
                 value: value,
-                label:label
+                label: label
             };
 
             $("#" + trackr[id].editId).val(label);
@@ -84,19 +84,19 @@ SOFTWARE.
                 trackr[id].data.push($.trim(data[i]));
             }
         };
-        this.clear = function() {
+        this.clear = function () {
             trackr[id].data = [];
             trackr[id].selected = "";
             $("#" + trackr[id].listId).remove("div.combojs-row");
         }
     };
 
-    var fn = function(id) {
+    var fn = function (id) {
         return new o(id);
     }
 
-    var processCombo = function() {
-        
+    var processCombo = function () {
+
         $(document).mouseup(function (e) {
 
             var box = $(".combojs");
@@ -110,15 +110,17 @@ SOFTWARE.
         $("select[combojs]").each(function (n) {
 
             var id = $(this).attr("combojs");
-            
-            var listId = "list_area_autoid_"+id;
+            var defaultValue = $(this).attr("combojs-value") || "";
+            var defaultLabel = $(this).attr("combojs-label") || "";
+            var listId = "list_area_autoid_" + id;
             var editId = "edit_area_autoid_" + id;
 
             var data = [];
             var selected = {
-                label: "",
-                value: ""
+                label: defaultLabel,
+                value: defaultValue
             };
+            var hasCustom = $.trim(selected.value).length > 0;
             var dataItems = $(this).children("option");
 
             trackr[id] = {
@@ -127,9 +129,9 @@ SOFTWARE.
                 listId: listId,
                 editId: editId
             };
-           
+
             $(dataItems).each(function () {
-                if (this.selected) {
+                if (this.selected && !hasCustom) {
                     selected = {
                         label: $.trim(this.label),
                         value: $.trim(this.value)
@@ -143,9 +145,9 @@ SOFTWARE.
              
             var top = elem({
                 tag: "div",
-                className:"combojs"
+                className: "combojs"
             });
-           
+
             var txtArea = elem({
                 tag: "div",
                 className: "combojs-edit"
@@ -169,7 +171,7 @@ SOFTWARE.
                 type: "hidden",
                 val: selected.value,
                 id: id,
-                name:id
+                name: id
             });
 
             var txt = elem({
@@ -177,7 +179,7 @@ SOFTWARE.
                 type: "text",
                 val: selected.label,
                 id: editId,
-                name:id
+                name: editId
             });
 
             $(txtArea).append(txt);
@@ -195,11 +197,19 @@ SOFTWARE.
 
             $(this).replaceWith(top);
 
+            $(txt).on("keyup", function (e) {
+                if (!$.isNumeric($(this).val())) {
+                    e.preventDefault();
+                } else {
+                    $(hidden).val($.trim($(this).val()));
+                } 
+            });
+
             $(listArea).delegate("div.combojs-row", "click", function () {
                 var label = (this.firstChild)
                     ? $.trim(this.firstChild.innerHTML) :
                     $.trim($(this).attr("value"));
- 
+
                 $(txt).val($.trim(label));
                 $(hidden).val($.trim($(this).attr("value")));
 
