@@ -60,10 +60,10 @@ SOFTWARE.
 
     var trackr = {};
 
-    var o = function (id) {
+    var O = function (id) {
         this.items = (typeof trackr[id].data === "undefined")
                      ? [] : trackr[id].data;
-        this.getSelected = trackr[id].selected;
+
         this.setSelected = function (value, label) {
 
             trackr[id].selected = {
@@ -92,7 +92,7 @@ SOFTWARE.
     };
 
     var fn = function (id) {
-        return new o(id);
+        return new O(id);
     }
 
     var processCombo = function () {
@@ -142,7 +142,7 @@ SOFTWARE.
                     value: $.trim(this.value)
                 });
             });
-             
+
             var top = elem({
                 tag: "div",
                 className: "combojs"
@@ -197,15 +197,12 @@ SOFTWARE.
 
             $(this).replaceWith(top);
 
-            $(txt).on("keyup", function (e) {
-                if (!$.isNumeric($(this).val())) {
-                    e.preventDefault();
-                } else {
-                    $(hidden).val($.trim($(this).val()));
-                } 
+            $(txt).on("keyup", function () {
+                $(hidden).val($.trim($(this).val()));
             });
 
             $(listArea).delegate("div.combojs-row", "click", function () {
+
                 var label = (this.firstChild)
                     ? $.trim(this.firstChild.innerHTML) :
                     $.trim($(this).attr("value"));
@@ -220,7 +217,6 @@ SOFTWARE.
 
                 $(listArea).hide();
             });
-
         });
 
     };

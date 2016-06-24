@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>combo.js - sample combo box</title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 
     <link href="../css/combojs.css" rel="stylesheet" />
@@ -10,17 +10,17 @@
 
     <script type="text/javascript">
 
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $("#selected").click(function() {
-                console.log(JSON.stringify($combo("colors").getSelected));
+            $("#selected").click(function () {
+                console.log(JSON.stringify($("#colors").val()));
             });
 
-            $("#list").click(function() {
+            $("#list").click(function () {
                 console.log(JSON.stringify($combo("colors").items));
             });
 
-            $("#selectGreen").click(function() {
+            $("#selectGreen").click(function () {
                 $combo("colors").setSelected(2, "Green");
             });
 
@@ -30,23 +30,23 @@
 
 </head>
 <body>
-<div>
-    <div style="width: 400px">
-        <select combojs="colors">
-            <option value="1">Red</option>
-            <option value="2">Green</option>
-            <option value="3">Blue</option>
-            <option value="4">Black</option>
-            <option value="5">Yellow</option>
-        </select>
-    </div>
     <div>
-        <input type="button" id="selected" value="Show Selected"/>
-        <br/>
-        <input type="button" id="list" value="Show List"/>
-        <br/>
-        <input type="button" id="selectGreen" value="Select Green"/>
+        <div style="width: 400px">
+            <select combojs="colors">
+                <option value="1">Red</option>
+                <option value="2">Green</option>
+                <option value="3">Blue</option>
+                <option value="4">Black</option>
+                <option value="5">Yellow</option>
+            </select>
+        </div>
+        <div>
+            <input type="button" id="selected" value="Show Selected" />
+            <br />
+            <input type="button" id="list" value="Show List" />
+            <br />
+            <input type="button" id="selectGreen" value="Select Green" />
+        </div>
     </div>
-</div>
 </body>
 </html>
